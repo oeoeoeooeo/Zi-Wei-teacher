@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 900px;
+    background: #13111f;
+    font-family: -apple-system, "PingFang TC", "Helvetica Neue", sans-serif;
+    padding: 20px;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 200px);
+    gap: 3px;
+    background: #2e2a45;
+    border: 3px solid #2e2a45;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cell {
+    background: #1b1830;
+    padding: 8px 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .center {
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+    background: #171428;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .pname {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid #2e2a45;
+    padding-bottom: 4px; margin-bottom: 6px;
+  }
+  .pname .n { color: #a48ae8; font-weight: 700; font-size: 15px; }
+  .pname .n .soul { color: #ff9d76; font-size: 12px; font-weight: 600; }
+  .pname .gz { color: #6e6893; font-size: 12px; }
+  .majors { font-size: 15px; font-weight: 700; color: #ffd479; line-height: 1.55; }
+  .majors .br { font-size: 11px; color: #b3a06a; font-weight: 400; }
+  .none { color: #6e6893; font-weight: 400; font-size: 13px; }
+  .mut {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    border-radius: 4px; padding: 0 4px; margin-left: 3px; vertical-align: 1px;
+  }
+  .lu   { background: #1e5c3a; color: #7de8ab; }
+  .quan { background: #5c4a1e; color: #e8cf7d; }
+  .ke   { background: #1e3f5c; color: #7dc0e8; }
+  .ji   { background: #5c1e28; color: #e87d90; }
+  .minors { font-size: 12.5px; color: #9ec3e8; margin-top: 4px; line-height: 1.5; }
+  .adj { font-size: 11px; color: #6e87a3; margin-top: 3px; line-height: 1.45; }
+  .decadal {
+    margin-top: auto; font-size: 11px; color: #6e6893;
+    border-top: 1px dashed #2e2a45; padding-top: 4px;
+    display: flex; justify-content: space-between;
+  }
+  .center .logo { font-size: 30px; }
+  .center h1 { color: #e9e4ff; font-size: 21px; letter-spacing: 2px; }
+  .center .sub { color: #a48ae8; font-size: 13px; }
+  .center .info {
+    color: #b9b3d6; font-size: 13.5px; line-height: 1.9;
+  }
+  .center .info b { color: #ffd479; font-weight: 600; }
+  .center .foot { color: #55506e; font-size: 11.5px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="cell"><div class="pname"><span class="n">僕役</span><span class="gz">辛巳</span></div>
+    <div class="majors">天同 <span class="br">廟</span><span class="mut ji">忌</span></div>
+    <div class="minors">右弼</div>
+    <div class="adj">破碎 天傷</div>
+    <div class="decadal"><span>大限</span><span>76 – 85</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">遷移</span><span class="gz">壬午</span></div>
+    <div class="majors">武曲 <span class="br">旺</span><span class="mut quan">權</span><br>天府 <span class="br">旺</span></div>
+    <div class="minors">地劫</div>
+    <div class="adj">天姚 天才 天福 截路</div>
+    <div class="decadal"><span>大限</span><span>66 – 75</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">疾厄</span><span class="gz">癸未</span></div>
+    <div class="majors">太陽 <span class="br">得</span><span class="mut lu">祿</span><br>太陰 <span class="br">不</span><span class="mut ke">科</span></div>
+    <div class="minors">天鉞 陀羅</div>
+    <div class="adj">天空 空亡 天使</div>
+    <div class="decadal"><span>大限</span><span>56 – 65</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">財帛</span><span class="gz">甲申</span></div>
+    <div class="majors">貪狼 <span class="br">平</span></div>
+    <div class="minors">祿存 天馬 火星</div>
+    <div class="adj">天壽 天巫 孤辰</div>
+    <div class="decadal"><span>大限</span><span>46 – 55</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">官祿</span><span class="gz">庚辰</span></div>
+    <div class="majors">破軍 <span class="br">旺</span></div>
+    <div class="minors">地空</div>
+    <div class="adj">八座 鳳閣 寡宿 陰煞</div>
+    <div class="decadal"><span>大限</span><span>86 – 95</span></div></div>
+
+  <div class="center">
+    <div class="logo">🌙</div>
+    <h1>紫微斗數命盤</h1>
+    <div class="sub">Zi-Wei-teacher 排盤範例(虛構資料)</div>
+    <div class="info">
+      <b>女命</b> 陽曆 1990-08-16 未時<br>
+      農曆 一九九〇年六月廿六<br>
+      四柱:庚午 癸未 癸丑 己未<br>
+      <b>火六局</b> · 命主 貪狼 · 身主 火星
+    </div>
+    <div class="foot">Telegram Bot · Claude AI × iztro</div>
+  </div>
+
+  <div class="cell"><div class="pname"><span class="n">子女</span><span class="gz">乙酉</span></div>
+    <div class="majors">天機 <span class="br">旺</span><br>巨門 <span class="br">廟</span></div>
+    <div class="minors">左輔 擎羊</div>
+    <div class="adj">紅鸞 封誥</div>
+    <div class="decadal"><span>大限</span><span>36 – 45</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">田宅</span><span class="gz">己卯</span></div>
+    <div class="majors"><span class="none">無主星(借對宮)</span></div>
+    <div class="minors">文昌</div>
+    <div class="adj">天喜 咸池 恩光 天月 天德</div>
+    <div class="decadal"><span>大限</span><span>96 – 105</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">夫妻</span><span class="gz">丙戌</span></div>
+    <div class="majors">紫微 <span class="br">得</span><br>天相 <span class="br">得</span></div>
+    <div class="minors">鈴星</div>
+    <div class="adj">三台 龍池 華蓋 旬空</div>
+    <div class="decadal"><span>大限</span><span>26 – 35</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">福德 <span class="soul">身宮</span></span><span class="gz">戊寅</span></div>
+    <div class="majors">廉貞 <span class="br">廟</span></div>
+    <div class="adj">天廚 蜚廉 天刑</div>
+    <div class="decadal"><span>大限</span><span>106 – 115</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">父母</span><span class="gz">己丑</span></div>
+    <div class="majors"><span class="none">無主星(借對宮)</span></div>
+    <div class="minors">天魁</div>
+    <div class="adj">台輔</div>
+    <div class="decadal"><span>大限</span><span>116 – 125</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">命宮</span><span class="gz">戊子</span></div>
+    <div class="majors">七殺 <span class="br">旺</span></div>
+    <div class="adj">解神 天哭 天虛</div>
+    <div class="decadal"><span>大限</span><span>6 – 15</span></div></div>
+
+  <div class="cell"><div class="pname"><span class="n">兄弟</span><span class="gz">丁亥</span></div>
+    <div class="majors">天梁 <span class="br">陷</span></div>
+    <div class="minors">文曲</div>
+    <div class="adj">天貴 天官 月德</div>
+    <div class="decadal"><span>大限</span><span>16 – 25</span></div></div>
+
+</div>
+</body>
+</html>
