@@ -1,0 +1,19 @@
+{
+  "name": "ziwei-teacher-bot",
+  "version": "1.0.0",
+  "description": "紫微斗數老師 Telegram 機器人 — 以 iztro 排盤、Claude API 解盤",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0",
+    "dotenv": "^16.4.5",
+    "iztro": "^2.4.5",
+    "telegraf": "^4.16.3"
+  }
+}

@@ -1,0 +1,12 @@
+# 金鑰與環境設定 — 絕對不可上傳
+.env
+.env.*
+!.env.example
+
+# 執行期產物(日誌可能含聊天室 ID 等資訊)
+logs/
+node_modules/
+
+# 本機工具設定
+.claude/
+.DS_Store
