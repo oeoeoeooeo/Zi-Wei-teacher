@@ -55,11 +55,34 @@ function splitMessage(text, limit = 3800) {
   return parts;
 }
 
+function isGroup(ctx) {
+  return ctx.chat.type === 'group' || ctx.chat.type === 'supergroup';
+}
+
+// 群組中只在「被 @提及」或「回覆機器人訊息」時發言
+function shouldRespondInGroup(ctx) {
+  const text = ctx.message.text ?? '';
+  const botUsername = ctx.botInfo?.username;
+  if (botUsername && text.includes(`@${botUsername}`)) return true;
+  if (ctx.message.reply_to_message?.from?.id === ctx.botInfo?.id) return true;
+  return false;
+}
+
 async function handleText(ctx) {
   const chatId = ctx.chat.id;
   const history = getHistory(chatId);
 
-  history.push({ role: 'user', content: ctx.message.text });
+  let text = ctx.message.text;
+  if (isGroup(ctx)) {
+    // 移除 @機器人 的提及字串,並標註發問者,讓老師知道群組裡是誰在問
+    if (ctx.botInfo?.username) {
+      text = text.replaceAll(`@${ctx.botInfo.username}`, '').trim();
+    }
+    const who = ctx.message.from?.first_name ?? '群友';
+    text = `【群組訊息,發問者:${who}】${text}`;
+  }
+
+  history.push({ role: 'user', content: text });
 
   // 模型思考期間持續顯示「輸入中…」
   const typing = setInterval(() => {
@@ -76,8 +99,11 @@ async function handleText(ctx) {
       history.splice(0, history.length - MAX_HISTORY_MESSAGES);
     }
 
+    const replyParams = isGroup(ctx)
+      ? { reply_parameters: { message_id: ctx.message.message_id } }
+      : {};
     for (const part of splitMessage(reply)) {
-      await ctx.reply(part);
+      await ctx.reply(part, replyParams);
     }
   } catch (err) {
     console.error(`[chat ${chatId}]`, err);
@@ -98,6 +124,9 @@ bot.command('clear', (ctx) => {
 });
 
 bot.on(message('text'), (ctx) => {
+  // 群組中只回應 @提及 或回覆機器人的訊息,避免搶答每一句話
+  if (isGroup(ctx) && !shouldRespondInGroup(ctx)) return;
+
   // 同一聊天室的訊息依序處理,避免對話歷史交錯
   const chatId = ctx.chat.id;
   const prev = queues.get(chatId) ?? Promise.resolve();
