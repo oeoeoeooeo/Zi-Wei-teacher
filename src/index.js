@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
 import { askTeacher } from './claude.js';
+import { logChat, logEvent } from './chatlog.js';
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 if (!token) {
@@ -83,6 +84,7 @@ async function handleText(ctx) {
   }
 
   history.push({ role: 'user', content: text });
+  logChat(ctx.chat, ctx.message.from?.first_name ?? '使用者', ctx.message.text);
 
   // 模型思考期間持續顯示「輸入中…」
   const typing = setInterval(() => {
@@ -93,6 +95,7 @@ async function handleText(ctx) {
   try {
     const reply = await askTeacher(history);
     history.push({ role: 'assistant', content: reply });
+    logChat(ctx.chat, '紫雲老師', reply);
 
     // 只保留最近的對話,避免無限增長
     if (history.length > MAX_HISTORY_MESSAGES) {
@@ -120,6 +123,7 @@ bot.start((ctx) => ctx.reply(WELCOME));
 
 bot.command('clear', (ctx) => {
   histories.delete(ctx.chat.id);
+  logEvent(ctx.chat, '對話記憶已清除(/clear)');
   return ctx.reply('好的,我們重新開始。請提供出生資料,或直接提問 🙂');
 });
 

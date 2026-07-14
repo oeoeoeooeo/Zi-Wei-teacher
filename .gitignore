@@ -7,6 +7,9 @@
 logs/
 node_modules/
 
+# 對話紀錄 — 含使用者生辰等個資,絕對不可上傳
+chats/
+
 # 本機工具設定
 .claude/
 .DS_Store
