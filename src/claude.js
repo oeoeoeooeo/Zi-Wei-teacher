@@ -5,7 +5,7 @@ import { getAstrolabe, formatAstrolabe, formatHoroscope } from './ziwei.js';
 
 const client = new Anthropic();
 
-const MODEL = 'claude-opus-4-8';
+const MODEL = 'claude-opus-5';
 
 const birthProperties = {
   calendar: {
@@ -79,6 +79,8 @@ export async function askTeacher(history) {
     model: MODEL,
     max_tokens: 8192,
     thinking: { type: 'adaptive' },
+    betas: ['server-side-fallback-2026-07-01'],
+    fallbacks: 'default',
     system: [
       {
         type: 'text',
