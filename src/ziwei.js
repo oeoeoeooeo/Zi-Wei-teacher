@@ -80,6 +80,7 @@ function surroundedPalaces(palace, a) {
 
 export function formatAstrolabe(a) {
   const starIndex = buildStarIndex(a);
+  const byBranch = new Map(a.palaces.map((p) => [branchIndex(p.earthlyBranch), p]));
   const lines = [];
   lines.push(`性別:${a.gender}`);
   lines.push(`陽曆:${a.solarDate} 農曆:${a.lunarDate}`);
@@ -87,6 +88,10 @@ export function formatAstrolabe(a) {
   lines.push(`時辰:${a.time}(${a.timeRange}) 生肖:${a.zodiac} 星座:${a.sign}`);
   lines.push(`命宮地支:${a.earthlyBranchOfSoulPalace} 身宮地支:${a.earthlyBranchOfBodyPalace}`);
   lines.push(`命主:${a.soul} 身主:${a.body} 五行局:${a.fiveElementsClass}`);
+  const originalPalace = a.palaces.find((p) => p.isOriginalPalace);
+  if (originalPalace) {
+    lines.push(`來因宮:${originalPalace.name}(${originalPalace.heavenlyStem}${originalPalace.earthlyBranch},宮干同生年天干)`);
+  }
 
   // 生年四化落宮摘要
   const birthMutagens = [];
@@ -102,12 +107,19 @@ export function formatAstrolabe(a) {
   lines.push('');
 
   for (const p of a.palaces) {
-    const major = p.majorStars.map(starLabel).join('、') || '無主星(借對宮)';
+    let major = p.majorStars.map(starLabel).join('、');
+    if (!major) {
+      const opposite = byBranch.get((branchIndex(p.earthlyBranch) + 6) % 12);
+      const borrowed = opposite.majorStars.map(starLabel).join('、');
+      major = borrowed
+        ? `無主星,借對宮${opposite.name}:${borrowed}`
+        : '無主星(對宮亦無主星)';
+    }
     const minor = p.minorStars.map(starLabel).join('、');
     const adj = p.adjectiveStars.map((s) => s.name).join('、');
-    const body = p.isBodyPalace ? '(身宮)' : '';
+    const marks = `${p.isBodyPalace ? '(身宮)' : ''}${p.isOriginalPalace ? '(來因宮)' : ''}`;
     lines.push(
-      `【${p.name}】${p.heavenlyStem}${p.earthlyBranch}${body} 大限 ${p.decadal.range[0]}-${p.decadal.range[1]} 歲`
+      `【${p.name}】${p.heavenlyStem}${p.earthlyBranch}${marks} 大限 ${p.decadal.range[0]}-${p.decadal.range[1]} 歲`
     );
     lines.push(`  主星:${major}`);
     if (minor) lines.push(`  輔佐煞曜:${minor}`);
@@ -118,7 +130,12 @@ export function formatAstrolabe(a) {
     const gods = [];
     if (p.changsheng12) gods.push(`長生12:${p.changsheng12}`);
     if (p.boshi12) gods.push(`博士12:${p.boshi12}`);
+    if (p.jiangqian12) gods.push(`將前12:${p.jiangqian12}`);
+    if (p.suiqian12) gods.push(`歲前12:${p.suiqian12}`);
     if (gods.length) lines.push(`  神煞:${gods.join(' ')}`);
+    if (p.ages && p.ages.length) {
+      lines.push(`  小限之年(虛歲):${p.ages.slice(0, 8).join('、')}`);
+    }
   }
   return lines.join('\n');
 }
@@ -171,6 +188,7 @@ export function formatHoroscope(a, targetDate) {
 
   scope('大限', h.decadal);
   scope('流年', h.yearly);
+  scope('小限', h.age);
   scope('流月', h.monthly);
   scope('流日', h.daily);
   scope('流時', h.hourly);
