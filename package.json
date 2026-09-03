@@ -1,11 +1,14 @@
 {
   "name": "ziwei-teacher-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "紫微斗數老師 Telegram 機器人 — 以 iztro 排盤、Claude API 解盤",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "cli": "node scripts/cli.js",
+    "chart": "node scripts/chart.js",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=18"
